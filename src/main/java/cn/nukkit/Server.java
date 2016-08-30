@@ -563,6 +563,7 @@ public class Server {
                 p.encode();
             }
             byte[] buf = p.getBuffer();
+            System.out.println(buf.length);
             payload[i * 2] = Binary.writeInt(buf.length);
             payload[i * 2 + 1] = buf;
         }

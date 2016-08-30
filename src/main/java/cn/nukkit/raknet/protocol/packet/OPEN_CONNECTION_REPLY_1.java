@@ -16,7 +16,7 @@ public class OPEN_CONNECTION_REPLY_1 extends Packet {
     }
 
     public long serverID;
-    public short mtuSize;
+    public int mtuSize;
 
     @Override
     public void encode() {

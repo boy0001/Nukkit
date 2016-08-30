@@ -123,9 +123,10 @@ public class Network {
     }
 
     public void processBatch(BatchPacket packet, Player player) {
+        System.out.println(Binary.bytesToHexString(packet.payload));
         byte[] data;
         try {
-            data = Zlib.inflate(packet.payload, 64 * 1024 * 1024);
+            data = Zlib.inflate(packet.payload);
         } catch (Exception e) {
             Server.getInstance().getLogger().logException(e);
             return;
@@ -133,11 +134,14 @@ public class Network {
 
         int len = data.length;
         int offset = 0;
+        System.out.println(Binary.bytesToHexString(data, true));
         try {
             List<DataPacket> packets = new ArrayList<>();
             while (offset < len) {
-                int pkLen = Binary.readInt(Binary.subBytes(data, offset, 4));
-                offset += 4;
+                //int pkLen = Binary.readInt(Binary.subBytes(data, offset, 4));
+                //offset += 4;
+                int pkLen = data[offset] & 0xff;
+                offset ++;
 
                 byte[] buf = Binary.subBytes(data, offset, pkLen);
                 offset += pkLen;
@@ -275,7 +279,7 @@ public class Network {
         this.registerPacket(ProtocolInfo.FULL_CHUNK_DATA_PACKET, FullChunkDataPacket.class);
         this.registerPacket(ProtocolInfo.SET_DIFFICULTY_PACKET, SetDifficultyPacket.class);
         this.registerPacket(ProtocolInfo.CHANGE_DIMENSION_PACKET, ChangeDimensionPacket.class);
-        this.registerPacket(ProtocolInfo.SET_PLAYER_GAMETYPE_PACKET, SetPlayerGameTypePacket.class);
+        this.registerPacket(ProtocolInfo.SET_PLAYER_GAME_TYPE_PACKET, SetPlayerGameTypePacket.class);
         this.registerPacket(ProtocolInfo.PLAYER_LIST_PACKET, PlayerListPacket.class);
         this.registerPacket(ProtocolInfo.TELEMETRY_EVENT_PACKET, TelemetryEventPacket.class);
         this.registerPacket(ProtocolInfo.REQUEST_CHUNK_RADIUS_PACKET, RequestChunkRadiusPacket.class);

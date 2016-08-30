@@ -37,13 +37,14 @@ public class LoginPacket extends DataPacket {
     @Override
     public void decode() {
         this.protocol = this.getInt();
-        byte[] str;
+        byte[] data;
         try {
-            str = Zlib.inflate(this.get(this.getInt()), 1024 * 1024 * 64);
+            data = Zlib.inflate(this.get(this.getShort()));
         } catch (Exception e) {
+            e.printStackTrace();
             return;
         }
-        this.setBuffer(str, 0);
+        this.setBuffer(data, 0);
         decodeChainData();
         decodeSkinData();
     }
