@@ -179,22 +179,6 @@ public class MainLogger extends ThreadedLogger {
             } catch (IOException e) {
                 this.logException(e);
             }
-        } else {
-            long date = logFile.lastModified();
-            String newName = new SimpleDateFormat("Y-M-d HH.mm.ss").format(new Date(date)) + ".log";
-            File oldLogs = new File(Nukkit.DATA_PATH, "logs");
-            if (!oldLogs.exists()) {
-                oldLogs.mkdirs();
-            }
-            logFile.renameTo(new File(oldLogs, newName));
-            logFile = new File(logPath);
-            if (!logFile.exists()) {
-                try {
-                    logFile.createNewFile();
-                } catch (IOException e) {
-                    this.logException(e);
-                }
-            }
         }
         replacements.put(TextFormat.BLACK, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.BLACK).boldOff().toString());
         replacements.put(TextFormat.DARK_BLUE, Ansi.ansi().a(Ansi.Attribute.RESET).fg(Ansi.Color.BLUE).boldOff().toString());
