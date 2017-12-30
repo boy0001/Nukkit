@@ -503,6 +503,7 @@ public class Item implements Cloneable {
     public static final int CARROT_ON_A_STICK = 398;
     public static final int NETHER_STAR = 399;
     public static final int PUMPKIN_PIE = 400;
+    public static final int FIREWORKS = 401;
 
     public static final int ENCHANTED_BOOK = 403;
     public static final int ENCHANT_BOOK = 403;
@@ -768,6 +769,7 @@ public class Item implements Cloneable {
             list[CARROT_ON_A_STICK] = ItemCarrotOnAStick.class; //398
             list[NETHER_STAR] = ItemNetherStar.class; //399
             list[PUMPKIN_PIE] = ItemPumpkinPie.class; //400
+            list[FIREWORKS] = ItemFireworks.class; //401
 
             list[ENCHANTED_BOOK] = ItemBookEnchanted.class; //403
             list[COMPARATOR] = ItemRedstoneComparator.class; //404
@@ -1005,11 +1007,17 @@ public class Item implements Cloneable {
         return this.tags != null && this.tags.length > 0;
     }
 
+    public void encodeCompoundTag() {
+        if (cachedNBT != null) {
+            this.tags = this.writeCompoundTag(this.cachedNBT);
+        }
+    }
+    
     public boolean hasCustomBlockData() {
         if (!this.hasCompoundTag()) {
             return false;
-        }
-
+        }    
+        
         CompoundTag tag = this.getNamedTag();
         return tag.contains("BlockEntityTag") && tag.get("BlockEntityTag") instanceof CompoundTag;
 
