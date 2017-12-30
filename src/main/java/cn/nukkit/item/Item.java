@@ -1007,16 +1007,16 @@ public class Item implements Cloneable {
         return this.tags != null && this.tags.length > 0;
     }
 
-    public boolean hasCustomBlockData() {
-        if (!this.hasCompoundTag()) {
-            return false;
-        }
-
     public void encodeCompoundTag() {
         if (cachedNBT != null) {
             this.tags = this.writeCompoundTag(this.cachedNBT);
         }
     }
+    
+    public boolean hasCustomBlockData() {
+        if (!this.hasCompoundTag()) {
+            return false;
+        }    
         
         CompoundTag tag = this.getNamedTag();
         return tag.contains("BlockEntityTag") && tag.get("BlockEntityTag") instanceof CompoundTag;
