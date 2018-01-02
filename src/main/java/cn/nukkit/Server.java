@@ -1398,6 +1398,8 @@ public class Server {
 //        } else {
 //            this.logger.notice(this.getLanguage().translateString("nukkit.data.playerNotFound", name));
 //        }
+            
+        }
 
         Position spawn = this.getDefaultLevel().getSafeSpawn();
         CompoundTag nbt = new CompoundTag()
