@@ -645,7 +645,7 @@ public class Server {
             return true;
         }
 
-        sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.unknown", commandLine));
+        sender.sendMessage(new TranslationContainer(TextFormat.RED + "%commands.generic.notFound", commandLine));
 
         return false;
     }
