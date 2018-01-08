@@ -1344,6 +1344,10 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
             inPortalTicks++;
         } else {
             this.inPortalTicks = 0;
+        }        
+        if (inPortalTicks == 30) {
+            Player player = this.getPlayer();
+            this.getServer().dispatchCommand(player, "unitp nether");
         }
     }
 
