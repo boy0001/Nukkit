@@ -3634,7 +3634,7 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
         }
 
         boolean showMessages = this.level.getGameRules().getBoolean("showDeathMessages");
-        String message = "death.attack.generic";
+        String message = "";
 
         List<String> params = new ArrayList<>();
         params.add(this.getDisplayName());
