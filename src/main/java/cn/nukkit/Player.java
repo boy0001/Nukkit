@@ -1342,7 +1342,6 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
             this.inPortalTicks = 0;
         }
         if (inPortalTicks == 30) {
-
             Player player = this.getPlayer();
             this.getServer().dispatchCommand(player, "unitp nether");
         }
@@ -4406,8 +4405,10 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
     }
 
     public void transfer(InetSocketAddress address) {
-        String hostName = address.getAddress().getHostAddress();
-        int port = address.getPort();
+        transfer(address.getAddress().getHostAddress(), address.getPort());
+    }
+
+    public void transfer(String hostName, int port) {
         TransferPacket pk = new TransferPacket();
         pk.address = hostName;
         pk.port = port;
