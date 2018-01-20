@@ -45,9 +45,6 @@ import cn.nukkit.level.format.FullChunk;
 import cn.nukkit.level.format.generic.BaseFullChunk;
 import cn.nukkit.level.particle.CriticalParticle;
 import cn.nukkit.level.particle.PunchBlockParticle;
-import cn.nukkit.level.sound.ExperienceOrbSound;
-
-import cn.nukkit.level.sound.ItemFrameItemRemovedSound;
 import cn.nukkit.math.*;
 import cn.nukkit.metadata.MetadataValue;
 import cn.nukkit.nbt.NBTIO;
@@ -559,8 +556,8 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
                     // We are going to wait 3 seconds, if after 3 seconds we didn't receive a reply from the client, resend the packet.
                     try {
                         Thread.sleep(3000);
-                        boolean status = needACK.get(identifier);
-                        if (!status && isOnline()) {
+                        Boolean status = needACK.get(identifier);
+                        if ((status == null || !status) && isOnline()) {
                             sendCommandData();
                             return;
                         }
@@ -1341,9 +1338,11 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
             inPortalTicks++;
         } else {
             this.inPortalTicks = 0;
-        }        
+        }
         if (inPortalTicks == 30) {
+
             Player player = this.getPlayer();
+
             this.getServer().dispatchCommand(player, "unitp nether");
         }
     }
@@ -2644,7 +2643,7 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
                                 this.level.dropItem(vector3, itemDrop);
                                 itemFrame.setItem(new ItemBlock(new BlockAir()));
                                 itemFrame.setItemRotation(0);
-                                this.getLevel().addSound(new ItemFrameItemRemovedSound(this));
+                                this.getLevel().addSound(this, Sound.BLOCK_ITEMFRAME_REMOVE_ITEM);
                             }
                         } else {
                             itemFrame.spawnTo(this);
@@ -3477,7 +3476,7 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
         }
 
         boolean showMessages = this.level.getGameRules().getBoolean("showDeathMessages");
-        String message = "";
+        String message = "death.attack.generic";
 
         List<String> params = new ArrayList<>();
         params.add(this.getDisplayName());
@@ -4406,10 +4405,8 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
     }
 
     public void transfer(InetSocketAddress address) {
-        transfer(address.getAddress().getHostAddress(), address.getPort());
-    }
-
-    public void transfer(String hostName, int port) {
+        String hostName = address.getAddress().getHostAddress();
+        int port = address.getPort();
         TransferPacket pk = new TransferPacket();
         pk.address = hostName;
         pk.port = port;
@@ -4503,7 +4500,7 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
                 int exp = xpOrb.getExp();
                 this.addExperience(exp);
                 entity.kill();
-                this.getLevel().addSound(new ExperienceOrbSound(this));
+                this.getLevel().addSound(this, Sound.RANDOM_ORB);
                 pickedXPOrb = tick;
                 return true;
             }
