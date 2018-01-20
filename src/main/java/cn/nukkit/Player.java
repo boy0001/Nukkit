@@ -45,6 +45,8 @@ import cn.nukkit.level.format.FullChunk;
 import cn.nukkit.level.format.generic.BaseFullChunk;
 import cn.nukkit.level.particle.CriticalParticle;
 import cn.nukkit.level.particle.PunchBlockParticle;
+import cn.nukkit.level.sound.ExperienceOrbSound;
+import cn.nukkit.level.sound.ItemFrameItemRemovedSound;
 import cn.nukkit.math.*;
 import cn.nukkit.metadata.MetadataValue;
 import cn.nukkit.nbt.NBTIO;
@@ -1342,11 +1344,10 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
         if (inPortalTicks == 30) {
 
             Player player = this.getPlayer();
-
             this.getServer().dispatchCommand(player, "unitp nether");
         }
-    }
-
+}
+ 
     protected void checkNearEntities() {
         for (Entity entity : this.level.getNearbyEntities(this.boundingBox.grow(1, 0.5, 1), this)) {
             entity.scheduleUpdate();
@@ -2643,7 +2644,7 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
                                 this.level.dropItem(vector3, itemDrop);
                                 itemFrame.setItem(new ItemBlock(new BlockAir()));
                                 itemFrame.setItemRotation(0);
-                                this.getLevel().addSound(this, Sound.BLOCK_ITEMFRAME_REMOVE_ITEM);
+                                this.getLevel().addSound(new ItemFrameItemRemovedSound(this));
                             }
                         } else {
                             itemFrame.spawnTo(this);
@@ -4500,7 +4501,7 @@ public class Player extends EntityHuman implements CommandSender, InventoryHolde
                 int exp = xpOrb.getExp();
                 this.addExperience(exp);
                 entity.kill();
-                this.getLevel().addSound(this, Sound.RANDOM_ORB);
+                this.getLevel().addSound(new ExperienceOrbSound(this));
                 pickedXPOrb = tick;
                 return true;
             }
