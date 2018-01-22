@@ -1296,9 +1296,6 @@ public class Level implements ChunkManager, Metadatable {
         return list;
     }
 
-    public Set<BlockUpdateEntry> getPendingBlockUpdates(AxisAlignedBB boundingBox) {
-        return updateQueue.getPendingBlockUpdates(boundingBox);
-
     public Block[] getCollisionBlocks(AxisAlignedBB bb) {
         return this.getCollisionBlocks(bb, false);
     }
