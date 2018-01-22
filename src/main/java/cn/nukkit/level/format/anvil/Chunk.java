@@ -322,7 +322,7 @@ public class Chunk extends BaseChunk {
         tileListTag.setAll(tiles);
         nbt.putList(tileListTag);
 
-        Set<BlockUpdateEntry> entries = this.provider.getLevel().getPendingBlockUpdates(this);
+        List<BlockUpdateEntry> entries = this.provider.getLevel().getPendingBlockUpdates(this);
 
         if (entries != null) {
             ListTag<CompoundTag> tileTickTag = new ListTag<>("TileTicks");
@@ -408,7 +408,7 @@ public class Chunk extends BaseChunk {
         tileListTag.setAll(tiles);
         nbt.putList(tileListTag);
 
-        Set<BlockUpdateEntry> entries = this.provider.getLevel().getPendingBlockUpdates(this);
+        List<BlockUpdateEntry> entries = this.provider.getLevel().getPendingBlockUpdates(this);
 
         if (entries != null) {
             ListTag<CompoundTag> tileTickTag = new ListTag<>("TileTicks");
